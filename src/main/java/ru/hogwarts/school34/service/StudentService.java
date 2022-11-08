@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 
 
 import ru.hogwarts.school34.exception.StudentNotFoundException;
+
+import ru.hogwarts.school34.model.Faculty;
 import ru.hogwarts.school34.model.Student;
 import ru.hogwarts.school34.repository.StudentRepository;
 
@@ -37,6 +39,7 @@ public class StudentService {
         return studentRepository.save(oldStudent);
     }
 
+
     public Student delete(long id) {
         Student student = read(id);
         studentRepository.delete(student);
@@ -48,10 +51,15 @@ public class StudentService {
     }
 
     public Collection<Student> findByAgeBetween(int min, int max) {
+        if (min < 0 || max < 0 || max < min) {
+            throw new IllegalArgumentException();
+        }
         return studentRepository.findByAgeBetween(min, max);
     }
 
-
+    public Faculty getNumberFacultyOfStudent(long student_id) {
+        return studentRepository.findById(student_id).get().getFaculty();
+    }
 }
 
 

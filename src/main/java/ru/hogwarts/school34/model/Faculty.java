@@ -19,12 +19,9 @@ public class Faculty {
         this.id = id;
         this.name = name;
         this.color = color;
-
     }
 
-
     public Faculty() {
-
     }
 
     @Override

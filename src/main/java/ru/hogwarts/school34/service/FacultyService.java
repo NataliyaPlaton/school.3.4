@@ -3,15 +3,21 @@ package ru.hogwarts.school34.service;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school34.exception.FacultyNotFoundException;
 import ru.hogwarts.school34.model.Faculty;
+import ru.hogwarts.school34.model.Student;
 import ru.hogwarts.school34.repository.FacultyRepository;
+import ru.hogwarts.school34.repository.StudentRepository;
+
+import java.util.Collection;
 
 @Service
 public class FacultyService {
 
     private final FacultyRepository facultyRepository;
+    private final StudentRepository studentRepository;
 
-    public FacultyService(FacultyRepository facultyRepository) {
+    public FacultyService(FacultyRepository facultyRepository, StudentRepository studentRepository) {
         this.facultyRepository = facultyRepository;
+        this.studentRepository = studentRepository;
     }
 
     public Faculty create(Faculty faculty) {
@@ -39,11 +45,17 @@ public class FacultyService {
 
     }
 
-    public Faculty findByNameOrColor(String name, String color) {
-        return facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
+    public Collection<Faculty> findByName(String name) {
+        return facultyRepository.findByNameIgnoreCase(name);
     }
 
+    public Collection<Faculty> findByColor(String color) {
+        return facultyRepository.findByColorIgnoreCase(color);
+    }
 
+    public Collection<Student> getStudentOfFaculty(long faculty_id) {
+        return studentRepository.findStudentByFaculty_Id(faculty_id);
+    }
 }
 
 
